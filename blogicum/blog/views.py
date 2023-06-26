@@ -6,8 +6,7 @@ AMOUNT_NEWS = 5  # Колличество новостей (const)
 
 
 def get_posts():
-    current_time = timezone.now()
-    return Post.objects.filter(pub_date__lte=current_time,
+    return Post.objects.filter(pub_date__lte=timezone.now(),
                                is_published=True,
                                category__is_published=True)
 
@@ -28,6 +27,7 @@ def category_posts(request, category_slug):
     category = get_object_or_404(Category,
                                  slug=category_slug,
                                  is_published=True)
-    post_list = get_posts().filter(category=category)
+    post_list = category.posts.filter(pub_date__lte=timezone.now(),
+                                      is_published=True)
     context = {'category': category, 'post_list': post_list}
     return render(request, 'blog/category.html', context)

@@ -53,7 +53,8 @@ class Post(PublishedModel):
     category = models.ForeignKey(Category,
                                  null=True,
                                  on_delete=models.SET_NULL,
-                                 verbose_name='Категория')
+                                 verbose_name='Категория',
+                                 related_name='posts')
 
     class Meta:
         verbose_name = 'публикация'
